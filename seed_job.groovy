@@ -1,5 +1,5 @@
 def jobDefn = 	[
-					"AFTC Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
+					"Generated Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
 								[
 									"test"     	: 	"https://github.com/dogbonnahNB/springboot.git",
 

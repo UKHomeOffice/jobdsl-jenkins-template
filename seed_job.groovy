@@ -1,3 +1,5 @@
+import groovy.xml.*
+
 def jobDefn = 	[
 					"Generated Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
 								[
@@ -6,6 +8,16 @@ def jobDefn = 	[
 								]
 
 				]
+
+def configFile = new XmlSlurper().parseText("/Users/Shared/Jenkins/Home/workspace/Generate\ Jenkins\ Jobs/jenkins_config.xml")
+configFile.'**'
+					.findAll { it.name() == 'role'}
+					.findAll { it.@name == 'admin'}
+					.each {
+							println it.permissions.text() + ":ogbonnahd"
+					}
+
+
 
 // Don't change anything below unless you know what you doing
 jobDefn.each { entry ->

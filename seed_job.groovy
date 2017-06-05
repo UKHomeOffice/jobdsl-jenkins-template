@@ -9,13 +9,36 @@ def jobDefn = 	[
 
 				]
 
-def configFile = new XmlSlurper().parseText("${JENKINS_HOME}/jenkins_config.xml")
-configFile.'**'
-					.findAll { it.name() == 'role' && it.@name == 'admin'}
-					.each {
-							println it.permissions.text() + ":ogbonnahd"
-					}
+def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/config.xml")
 
+adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
+
+def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build']
+def PermissionsList = []
+int outerIndex = 0
+int innerIndex = 0
+def index = 0
+
+while(outerIndex < adminPermissionsList.size())
+{
+	String tempString = adminPermissionsList.get(outerIndex)
+	while(adminRoleNode.sid[innerIndex] != null)
+	{
+		tempString = tempString + ":" + adminRoleNode.sid[innerIndex].value().text()
+		PermissionsList.add(tempString)
+		innerIndex++
+	}
+
+	innerIndex = 0
+	outerIndex++
+}
+
+while(index < PermissionsList.size())
+{
+	String tempString = PermissionsList.get(index)
+	println tempString
+	index++
+}
 
 
 // Don't change anything below unless you know what you doing

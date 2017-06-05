@@ -9,7 +9,7 @@ def jobDefn = 	[
 
 				]
 
-def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/config.xml")
+def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/Home/config.xml")
 
 adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
 

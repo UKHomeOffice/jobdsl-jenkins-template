@@ -11,8 +11,7 @@ def jobDefn = 	[
 
 def configFile = new XmlSlurper().parseText("/Users/Shared/Jenkins/Home/workspace/Generate\ Jenkins\ Jobs/jenkins_config.xml")
 configFile.'**'
-					.findAll { it.name() == 'role'}
-					.findAll { it.@name == 'admin'}
+					.findAll { it.name() == 'role' && it.@name == 'admin'}
 					.each {
 							println it.permissions.text() + ":ogbonnahd"
 					}

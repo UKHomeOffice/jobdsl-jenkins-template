@@ -9,7 +9,7 @@ def jobDefn = 	[
 
 				]
 
-def configFile = new XmlSlurper().parseText("/Users/Shared/Jenkins/Home/workspace/Generate\ Jenkins\ Jobs/jenkins_config.xml")
+def configFile = new XmlSlurper().parseText("${JENKINS_HOME}/jenkins_config.xml")
 configFile.'**'
 					.findAll { it.name() == 'role' && it.@name == 'admin'}
 					.each {

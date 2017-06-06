@@ -13,7 +13,7 @@ def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/Home/config
 
 adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
 
-def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build' 'hudson.model.Item.Build' 'hudson.model.Item.Read']
+def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
 def PermissionsList = []
 int outerIndex = 0
 int innerIndex = 0

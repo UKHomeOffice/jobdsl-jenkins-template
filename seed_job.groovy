@@ -72,6 +72,9 @@ jobDefn.each { entry ->
 
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS) {
+
+	def list = [ 'ten', 'eleven']
+
 	// Create job
 	multibranchPipelineJob(jobName) {
 		// Define source
@@ -101,8 +104,8 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		configure { node ->
 			node / 'properties' / 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty' {
-					String temp = PermissionsList.get()
-					permission(temp)
+					String temp = list.getAt(0)
+					permission(list)
 			}
 		}
 

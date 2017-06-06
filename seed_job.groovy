@@ -101,7 +101,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		configure { node ->
 			node / 'properties' / 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty' {
-					String temp = PermissionsList.getAt(0)
+					String temp = PermissionsList.get()
 					permission(temp)
 			}
 		}

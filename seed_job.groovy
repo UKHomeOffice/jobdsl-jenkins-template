@@ -101,7 +101,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		authorization {
 			for (def i = 1; i < PermissionsList.size(); i++) {
-				permission(i)
+				permission(PermissionsList.get(i))
 			}
 	 	}
 

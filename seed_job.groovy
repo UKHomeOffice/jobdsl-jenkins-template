@@ -1,5 +1,6 @@
 import groovy.xml.*
 
+def testUsers = ['testuser', 'newuser']
 def jobDefn = 	[
 					"Generated Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
 								[
@@ -42,7 +43,6 @@ jobDefn.each { entry ->
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS) {
 
-	def testUsers = ['testuser', 'newuser']
 	def testPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
 	int outerIndex = 0

@@ -42,12 +42,6 @@ jobDefn.each { entry ->
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS) {
 
-	def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/Home/config.xml")
-
-	adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
-	//testRoleNode = jenkinsConfigFile.depthFirst().role[2].value()
-
-	def devUsers = ['ogbonnahd']
 	def testUsers = ['testuser', 'newuser']
 	def testPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []

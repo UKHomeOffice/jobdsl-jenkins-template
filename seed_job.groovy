@@ -101,7 +101,9 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		configure { node ->
 			node / 'properties' << 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty'
-			
+			{
+					permission{'hudson.model.View.Create:ogbonnahd'}
+			}
 	 	}
 
     configure { node ->

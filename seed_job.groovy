@@ -9,37 +9,6 @@ def jobDefn = 	[
 
 				]
 
-def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/Home/config.xml")
-
-adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
-
-def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
-def PermissionsList = []
-int outerIndex = 0
-int innerIndex = 0
-def index = 0
-
-while(outerIndex < adminPermissionsList.size())
-{
-	String tempString = adminPermissionsList.get(outerIndex)
-	while(adminRoleNode.sid[innerIndex] != null)
-	{
-		tempString = tempString + ":" + adminRoleNode.sid[innerIndex].value().text()
-		PermissionsList.add(tempString)
-		innerIndex++
-	}
-
-	innerIndex = 0
-	outerIndex++
-}
-
-while(index < PermissionsList.size())
-{
-	String tempString = PermissionsList.get(index)
-	println tempString
-	index++
-}
-
 
 // Don't change anything below unless you know what you doing
 jobDefn.each { entry ->
@@ -73,7 +42,36 @@ jobDefn.each { entry ->
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS) {
 
-	def list = [ 'ten', 'eleven']
+	def jenkinsConfigFile = new XmlParser().parse("/Users/Shared/Jenkins/Home/config.xml")
+
+	adminRoleNode = jenkinsConfigFile.depthFirst().role[0].value()
+
+	def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
+	def PermissionsList = []
+	int outerIndex = 0
+	int innerIndex = 0
+	def index = 0
+
+	while(outerIndex < adminPermissionsList.size())
+	{
+		String tempString = adminPermissionsList.get(outerIndex)
+		while(adminRoleNode.sid[innerIndex] != null)
+		{
+			tempString = tempString + ":" + adminRoleNode.sid[innerIndex].value().text()
+			PermissionsList.add(tempString)
+			innerIndex++
+		}
+
+		innerIndex = 0
+		outerIndex++
+	}
+
+	while(index < PermissionsList.size())
+	{
+		String tempString = PermissionsList.get(index)
+		println tempString
+		index++
+	}
 
 	// Create job
 	multibranchPipelineJob(jobName) {
@@ -104,7 +102,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		configure { node ->
 			node / 'properties' / 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty' {
-					String temp = list.getAt(0)
+					String temp = PermissionsList.getAt(0)
 					permission(temp)
 			}
 		}

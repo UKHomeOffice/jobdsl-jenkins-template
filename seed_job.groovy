@@ -99,11 +99,9 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		} // End of Triggers
 
-		configure { node ->
-			node / 'properties' << 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty'{
-					permission{'hudson.model.View.Create:ogbonnahd'}
-			}
-	 	}
+		authorisation{
+			permission('hudson.model.View.Create:ogbonnahd')
+		}
 
     configure { node ->
       node / 'properties' << 'org.jenkinsci.plugins.workflow.libs.FolderLibraries' (plugin: 'workflow-cps-global-lib@2.4'){

@@ -100,7 +100,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 		} // End of Triggers
 
 		authorisation{
-			permission('hudson.model.View.Create:ogbonnahd')
+			permission('hudson.model.View.Create', 'ogbonnahd')
 		}
 
     configure { node ->

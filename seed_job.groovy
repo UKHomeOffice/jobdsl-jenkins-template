@@ -48,7 +48,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 	testRoleNode = jenkinsConfigFile.depthFirst().role[2].value()
 
 	def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
-	def testPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
+	def testPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure']
 	def PermissionsList = []
 	int outerIndex = 0
 	int innerIndex = 0
@@ -59,8 +59,8 @@ def buildMultiBranchJob(jobName, jobVCS) {
 		String tempString = adminPermissionsList.get(outerIndex)
 		while(adminRoleNode.sid[innerIndex] != null)
 		{
-			tempString = tempString + ":" + adminRoleNode.sid[innerIndex].value().text()
-			PermissionsList.add(tempString)
+			permString = tempString + ":" + adminRoleNode.sid[innerIndex].value().text()
+			PermissionsList.add(permString)
 			innerIndex++
 		}
 
@@ -76,8 +76,8 @@ def buildMultiBranchJob(jobName, jobVCS) {
 		String tempString = testPermissionsList.get(outerIndex)
 		while(testRoleNode.sid[innerIndex] != null)
 		{
-			tempString = tempString + ":" + testRoleNode.sid[innerIndex].value().text()
-			PermissionsList.add(tempString)
+			permString = tempString + ":" + testRoleNode.sid[innerIndex].value().text()
+			PermissionsList.add(permString)
 			innerIndex++
 		}
 

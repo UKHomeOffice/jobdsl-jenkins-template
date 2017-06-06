@@ -100,7 +100,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 		} // End of Triggers
 
 		authorization {
-			PermissionList.each { permission(it) }
+			PermissionsList.each { permission(it) }
 	 	}
 
     configure { node ->

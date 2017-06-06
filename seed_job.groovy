@@ -48,7 +48,7 @@ def buildMultiBranchJob(jobName, jobVCS) {
 	testRoleNode = jenkinsConfigFile.depthFirst().role[2].value()
 
 	def adminPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Computer.Build', 'hudson.model.Item.Build', 'hudson.model.Item.Read']
-	def testPermissionsList = ['hudson.model.View.Create', 'hudson.model.View.Configure', 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure']
+	def testPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
 	int outerIndex = 0
 	int innerIndex = 0

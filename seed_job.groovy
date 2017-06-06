@@ -99,9 +99,10 @@ def buildMultiBranchJob(jobName, jobVCS) {
 
 		} // End of Triggers
 
-		authorization {
+		configure { node ->
+			node / 'properties' << 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty'
 			for (def i = 1; i < PermissionsList.size(); i++) {
-				permission(PermissionsList.get(i))
+				permission {PermissionsList.get(i)}
 			}
 	 	}
 

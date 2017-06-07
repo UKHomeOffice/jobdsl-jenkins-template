@@ -71,11 +71,13 @@ redProjectsjobDefn.each { entry ->
       }
     }
     columns {
-        status()
-        weather()
-        name()
-        lastSuccess()
-        lastdButton()
+				status()
+				weather()
+				name()
+				lastSuccess()
+				lastFailure()
+				lastDuration()
+				buildButton()
     }
   }
 

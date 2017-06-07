@@ -84,8 +84,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 	def devUsers = ['ogbonnahd']
 	def testUsers = ['testuser', 'newuser']
 
-	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build','hudson.model.Item.Workspace']
-	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Workspace']
+	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build']
+	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', ]
 	def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
@@ -109,6 +109,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 			innerIndex = 0
 			outerIndex++
 		}
+
+		outerIndex = 0
 
 		while(outerIndex < testBlueProjectsPermissionsList.size())
 		{
@@ -139,6 +141,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 			innerIndex = 0
 			outerIndex++
 		}
+
+		outerIndex = 0
 
 		while(outerIndex < testRedProjectsPermissionsList.size())
 		{

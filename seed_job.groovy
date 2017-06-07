@@ -84,8 +84,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 	def devUsers = ['ogbonnahd']
 	def testUsers = ['testuser', 'newuser']
 
-	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build']
-	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover']
+	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build','hudson.model.Item.Workspace']
+	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Workspace']
 	def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
@@ -192,8 +192,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 		configure { node ->
 			node / 'properties' / 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty' {
 				for(int i = 0; i < PermissionsList.size(); i++) {
-					String temp = PermissionsList.getAt(i)
-					permission(temp)
+					String perm = PermissionsList.getAt(i)
+					permission(perm)
 				}
 			}
 		}

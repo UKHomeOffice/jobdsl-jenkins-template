@@ -81,15 +81,35 @@ redProjectsjobDefn.each { entry ->
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS, projectType) {
 
+	def devUsers = ['ogbonnahd']
 	def testUsers = ['testuser', 'newuser']
-	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
-	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+
+	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build']
+	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover']
+	def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+	def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
+
 	int outerIndex = 0
 	int innerIndex = 0
 	def index = 0
 
 	if(projectType.equals('blueProject')) {
+
+		while(outerIndex < devBlueProjectsPermissionsList.size())
+		{
+			String tempString = devBlueProjectsPermissionsList.get(outerIndex)
+			while(innerIndex < devUsers.size())
+			{
+				permString = tempString + ":" + devUsers.get(innerIndex)
+				PermissionsList.add(permString)
+				innerIndex++
+			}
+
+			innerIndex = 0
+			outerIndex++
+		}
+
 		while(outerIndex < testBlueProjectsPermissionsList.size())
 		{
 			String tempString = testBlueProjectsPermissionsList.get(outerIndex)
@@ -103,7 +123,23 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 			innerIndex = 0
 			outerIndex++
 		}
+
 	} else {
+
+		while(outerIndex < devRedProjectsPermissionsList.size())
+		{
+			String tempString = devRedProjectsPermissionsList.get(outerIndex)
+			while(innerIndex < devUsers.size())
+			{
+				permString = tempString + ":" + devUsers.get(innerIndex)
+				PermissionsList.add(permString)
+				innerIndex++
+			}
+
+			innerIndex = 0
+			outerIndex++
+		}
+
 		while(outerIndex < testRedProjectsPermissionsList.size())
 		{
 			String tempString = testRedProjectsPermissionsList.get(outerIndex)

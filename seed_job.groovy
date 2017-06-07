@@ -75,9 +75,7 @@ redProjectsjobDefn.each { entry ->
         weather()
         name()
         lastSuccess()
-        lastFailure()
-        lastDuration()
-        buildButton()
+        lastdButton()
     }
   }
 
@@ -89,7 +87,7 @@ redProjectsjobDefn.each { entry ->
 def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 
 
-	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Build', 'hudson.model.Item.Delete',]
+	def testBlueProjectsPermissionsList = ['hudson.model.Item.Delete']
 	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', ]
 	def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']

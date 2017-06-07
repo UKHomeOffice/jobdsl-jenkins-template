@@ -1,8 +1,7 @@
 import groovy.xml.*
 
-def testUsers = ['testuser', 'newuser']
-def jobDefn = 	[
-					"Generated Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
+def blueProjectsjobDefn = 	[
+					"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
 								[
 									"springboot-companies"     	: 	"https://github.com/dogbonnahNB/springboot.git",
 
@@ -10,15 +9,53 @@ def jobDefn = 	[
 
 				]
 
+def redProjectsjobDefn = 	[
+					"Red Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
+								[
+									"DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
+
+								]
+
+				]
+
 
 // Don't change anything below unless you know what you doing
-jobDefn.each { entry ->
+blueProjectsjobDefn.each { entry ->
   println "View  " + entry.key
 	entry.value.each { job ->
         println "Job  " + job.key
 		jobName = job.key;
 		jobVCS = job.value;
-		buildMultiBranchJob(jobName, jobVCS)
+		projectType = 'blueProject';
+		buildMultiBranchJob(jobName, jobVCS, projectType)
+	}
+  listView("${entry.key}") {
+    jobs {
+      entry.value.each { job ->
+        name("${job.key}")
+      }
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+  }
+
+}
+
+redProjectsjobDefn.each { entry ->
+  println "View  " + entry.key
+	entry.value.each { job ->
+        println "Job  " + job.key
+		jobName = job.key;
+		jobVCS = job.value;
+		projectType = 'redProject';
+		buildMultiBranchJob(jobName, jobVCS, projectType)
 	}
   listView("${entry.key}") {
     jobs {
@@ -40,27 +77,46 @@ jobDefn.each { entry ->
 }
 
 
-// Define method to build the job
-def buildMultiBranchJob(jobName, jobVCS) {
 
-	def testPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+// Define method to build the job
+def buildMultiBranchJob(jobName, jobVCS, projectType) {
+
+	def testUsers = ['testuser', 'newuser']
+	def testBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
 	def PermissionsList = []
 	int outerIndex = 0
 	int innerIndex = 0
 	def index = 0
 
-	while(outerIndex < testPermissionsList.size())
-	{
-		String tempString = testPermissionsList.get(outerIndex)
-		while(innerIndex < testUsers.size())
+	if(projectType.equals('blueProject')) {
+		while(outerIndex < testBlueProjectsPermissionsList.size())
 		{
-			permString = tempString + ":" + testUsers.get(innerIndex)
-			PermissionsList.add(permString)
-			innerIndex++
-		}
+			String tempString = testBlueProjectsPermissionsList.get(outerIndex)
+			while(innerIndex < testUsers.size())
+			{
+				permString = tempString + ":" + testUsers.get(innerIndex)
+				PermissionsList.add(permString)
+				innerIndex++
+			}
 
-		innerIndex = 0
-		outerIndex++
+			innerIndex = 0
+			outerIndex++
+		}
+	} else {
+		while(outerIndex < testRedProjectsPermissionsList.size())
+		{
+			String tempString = testRedProjectsPermissionsList.get(outerIndex)
+			while(innerIndex < testUsers.size())
+			{
+				permString = tempString + ":" + testUsers.get(innerIndex)
+				PermissionsList.add(permString)
+				innerIndex++
+			}
+
+			innerIndex = 0
+			outerIndex++
+		}
 	}
 
 	while(index < PermissionsList.size())

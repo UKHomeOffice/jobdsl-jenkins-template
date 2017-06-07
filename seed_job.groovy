@@ -60,7 +60,9 @@ redProjectsjobDefn.each { entry ->
 		jobName = job.key;
 		jobVCS = job.value;
 		projectType = 'redProject';
-		buildMultiBranchJob(jobName, jobVCS, projectType)
+		tests = testUsers;
+		devs = devUsers;
+		buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs)
 	}
   listView("${entry.key}") {
     jobs {

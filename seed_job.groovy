@@ -1,4 +1,43 @@
 import groovy.xml.*
+import groovy.json.*
+
+def reader = new BufferedReader(
+              new FileReader("/Users/davidogbonnah/Downloads/ci-users-0.json"))
+def keycloakExport = new JsonSlurper().parse(reader)
+
+def users = keycloakExport.users
+
+int outerIndex = 0
+def developers = []
+def testers = []
+def techLeads = []
+def admins = []
+
+while(users[outerIndex] != null)
+{
+	String tempString = users[outerIndex].username
+	println tempString
+
+	if(users[outerIndex].groups.contains("/admins"))
+	{
+		admins.add(users[outerIndex].username)
+	}
+	if(users[outerIndex].groups.contains("/developers"))
+	{
+		developers.add(users[outerIndex].username)
+	}
+	if(users[outerIndex].groups.contains("/testers"))
+	{
+		testers.add(users[outerIndex].username)
+	}
+	if(users[outerIndex].groups.contains("/techLeads"))
+	{
+		techLeads.add(users[outerIndex].username)
+	}
+
+	outerIndex++
+}
+
 
 def blueProjectsjobDefn = 	[
 					"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
@@ -18,20 +57,15 @@ def redProjectsjobDefn = 	[
 
 				]
 
-def devUsers = ['ogbonnahd']
-def testUsers = ['testuser', 'newuser']
+//def devUsers = ['ogbonnahd']
+//def testUsers = ['testuser', 'newuser']
 
-
-// Don't change anything below unless you know what you doing
-blueProjectsjobDefn.each { entry ->
-  println "View  " + entry.key
-	entry.value.each { job ->
-        println "Job  " + job.key
++ job.key
 		jobName = job.key;
 		jobVCS = job.value;
 		projectType = 'blueProject';
-		tests = testUsers;
-		devs = devUsers;
+		tests = testers;
+		devs = developers;
 		buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs)
 	}
   listView("${entry.key}") {
@@ -60,8 +94,8 @@ redProjectsjobDefn.each { entry ->
 		jobName = job.key;
 		jobVCS = job.value;
 		projectType = 'redProject';
-		tests = testUsers;
-		devs = devUsers;
+		tests = testers;
+		devs = developers;
 		buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs)
 	}
   listView("${entry.key}") {

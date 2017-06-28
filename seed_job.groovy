@@ -60,7 +60,10 @@ def redProjectsjobDefn = 	[
 //def devUsers = ['ogbonnahd']
 //def testUsers = ['testuser', 'newuser']
 
-+ job.key
+blueProjectsjobDefn.each { entry ->
+  println "View  " + entry.key
+	entry.value.each { job ->
+        println "Job  " + job.key
 		jobName = job.key;
 		jobVCS = job.value;
 		projectType = 'blueProject';

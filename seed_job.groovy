@@ -2,7 +2,7 @@ import groovy.xml.*
 import groovy.json.*
 
 def reader = new BufferedReader(
-              new FileReader("${JENKINS_HOME}/keycloak/bin/ci-realm.json/ci-users-0.json"))
+              new FileReader("${JENKINS_HOME}/ci-realm.json/ci-users-0.json"))
 def keycloakExport = new JsonSlurper().parse(reader)
 
 def users = keycloakExport.users

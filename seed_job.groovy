@@ -241,13 +241,6 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 			}
 		}
 
-		configure { node ->
-			node / 'properties' / 'com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty' {
-					permission('hudson.model.Item.Build:techLeads')
-			}
-		}
-
-
     configure { node ->
       node / 'propertiesimport groovy.xml.*' << 'org.jenkinsci.plugins.workflow.libs.FolderLibraries' (plugin: 'workflow-cps-global-lib@2.4'){
         libraries {

@@ -241,6 +241,7 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 					String perm = PermissionsList.getAt(i)
 					permission(perm)
 				}
+				permission('hudson.model.Item.Build:techLeads')
 			}
 		}
 

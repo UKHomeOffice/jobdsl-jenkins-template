@@ -1,3 +1,4 @@
+import groovy.xml.*
 import groovy.json.*
 
 def reader = new BufferedReader(
@@ -56,6 +57,8 @@ def redProjectsjobDefn = 	[
 
 				]
 
+//def devUsers = ['ogbonnahd']
+//def testUsers = ['testuser', 'newuser']
 
 blueProjectsjobDefn.each { entry ->
   println "View  " + entry.key
@@ -242,7 +245,7 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 		}
 
     configure { node ->
-      node / 'propertiesimport groovy.xml.*' << 'org.jenkinsci.plugins.workflow.libs.FolderLibraries' (plugin: 'workflow-cps-global-lib@2.4'){
+      node / 'properties' << 'org.jenkinsci.plugins.workflow.libs.FolderLibraries' (plugin: 'workflow-cps-global-lib@2.4'){
         libraries {
           'org.jenkinsci.plugins.workflow.libs.LibraryConfiguration' {
             name('common')

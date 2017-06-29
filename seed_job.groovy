@@ -1,43 +1,3 @@
-import groovy.xml.*
-import groovy.json.*
-
-def reader = new BufferedReader(
-              new FileReader("${JENKINS_HOME}/ci-realm.json/ci-users-0.json"))
-def keycloakExport = new JsonSlurper().parse(reader)
-
-def users = keycloakExport.users
-
-int outerIndex = 0
-def developers = []
-def testers = []
-def techLeads = []
-def admins = []
-
-while(users[outerIndex] != null)
-{
-	String tempString = users[outerIndex].username
-	println tempString
-
-	if(users[outerIndex].groups.contains("/admins"))
-	{
-		admins.add(users[outerIndex].username)
-	}
-	if(users[outerIndex].groups.contains("/developers"))
-	{
-		developers.add(users[outerIndex].username)
-	}
-	if(users[outerIndex].groups.contains("/testers"))
-	{
-		testers.add(users[outerIndex].username)
-	}
-	if(users[outerIndex].groups.contains("/techLeads"))
-	{
-		techLeads.add(users[outerIndex].username)
-	}
-
-	outerIndex++
-}
-
 
 def blueProjectsjobDefn = 	[
 					"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
@@ -67,9 +27,7 @@ blueProjectsjobDefn.each { entry ->
 		jobName = job.key;
 		jobVCS = job.value;
 		projectType = 'blueProject';
-		tests = testers;
-		devs = developers;
-		buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs)
+		buildMultiBranchJob(jobName, jobVCS, projectType)
 	}
   listView("${entry.key}") {
     jobs {
@@ -99,7 +57,7 @@ redProjectsjobDefn.each { entry ->
 		projectType = 'redProject';
 		tests = testers;
 		devs = developers;
-		buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs)
+		buildMultiBranchJob(jobName, jobVCS, projectType)
 	}
   listView("${entry.key}") {
     jobs {
@@ -123,7 +81,7 @@ redProjectsjobDefn.each { entry ->
 
 
 // Define method to build the job
-def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
+def buildMultiBranchJob(jobName, jobVCS, projectType) {
 
 
 	def testBlueProjectsPermissionsList = ['hudson.model.Item.Delete']
@@ -141,14 +99,10 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 		while(outerIndex < devBlueProjectsPermissionsList.size())
 		{
 			String tempString = devBlueProjectsPermissionsList.get(outerIndex)
-			while(innerIndex < devs.size())
-			{
-				permString = tempString + ":" + devs.get(innerIndex)
-				PermissionsList.add(permString)
-				innerIndex++
-			}
 
-			innerIndex = 0
+			permString = tempString + ":" + "developers"
+			PermissionsList.add(permString)
+
 			outerIndex++
 		}
 
@@ -157,14 +111,10 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 		while(outerIndex < testBlueProjectsPermissionsList.size())
 		{
 			String tempString = testBlueProjectsPermissionsList.get(outerIndex)
-			while(innerIndex < tests.size())
-			{
-				permString = tempString + ":" + tests.get(innerIndex)
-				PermissionsList.add(permString)
-				innerIndex++
-			}
 
-			innerIndex = 0
+      permString = tempString + ":" + "testers"
+      PermissionsList.add(permString)
+
 			outerIndex++
 		}
 
@@ -173,14 +123,10 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 		while(outerIndex < devRedProjectsPermissionsList.size())
 		{
 			String tempString = devRedProjectsPermissionsList.get(outerIndex)
-			while(innerIndex < devs.size())
-			{
-				permString = tempString + ":" + devs.get(innerIndex)
-				PermissionsList.add(permString)
-				innerIndex++
-			}
 
-			innerIndex = 0
+			permString = tempString + ":" + "developers"
+			PermissionsList.add(permString)
+
 			outerIndex++
 		}
 
@@ -189,14 +135,10 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 		while(outerIndex < testRedProjectsPermissionsList.size())
 		{
 			String tempString = testRedProjectsPermissionsList.get(outerIndex)
-			while(innerIndex < tests.size())
-			{
-				permString = tempString + ":" + tests.get(innerIndex)
-				PermissionsList.add(permString)
-				innerIndex++
-			}
 
-			innerIndex = 0
+			permString = tempString + ":" + "testers"
+			PermissionsList.add(permString)
+
 			outerIndex++
 		}
 	}
@@ -241,7 +183,6 @@ def buildMultiBranchJob(jobName, jobVCS, projectType, tests, devs) {
 					String perm = PermissionsList.getAt(i)
 					permission(perm)
 				}
-				permission('hudson.model.Item.Build:techLeads')
 			}
 		}
 

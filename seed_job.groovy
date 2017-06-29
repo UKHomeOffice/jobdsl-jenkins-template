@@ -1,4 +1,4 @@
-
+//Replace with real project group names
 def blueProjectsjobDefn = 	[
 					"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
 								[
@@ -16,9 +16,6 @@ def redProjectsjobDefn = 	[
 								]
 
 				]
-
-//def devUsers = ['ogbonnahd']
-//def testUsers = ['testuser', 'newuser']
 
 blueProjectsjobDefn.each { entry ->
   println "View  " + entry.key
@@ -83,7 +80,7 @@ redProjectsjobDefn.each { entry ->
 // Define method to build the job
 def buildMultiBranchJob(jobName, jobVCS, projectType) {
 
-
+  //Each list represents a set of permissions for a group permissions for one set of projects
 	def testBlueProjectsPermissionsList = ['hudson.model.Item.Delete']
 	def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', ]
 	def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']

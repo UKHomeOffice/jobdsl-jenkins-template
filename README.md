@@ -2,7 +2,7 @@
 
 ## Overview
 
-  This document explains how to generate multibranch pipeline jobs, using the JobDSL plugin on a Jenkins instance which is configured to use the Keycloak authentication plugin in conjunction with Project-based Matrix Authorization Strategy  
+  This document explains how to generate multibranch pipeline jobs using the JobDSL plugin on a Jenkins instance which is configured to use the Keycloak authentication plugin in conjunction with Project-based Matrix Authorization Strategy  
 
 ##  Prerequisites
 
@@ -153,6 +153,6 @@ To create the seed job create a new freestyle job in Jenkins and within the Sour
 
 Scroll down the page to the Build section and select Add build step > Process Job DSLs
 
-![alt text](screenshots/keycloak_roles.png "Keycloak Roles page")
+![alt text](screenshots/jenkins_build.png "Build section")
 
 If configured correctly your seed job should run successfully and generate views with the defined projects within them.

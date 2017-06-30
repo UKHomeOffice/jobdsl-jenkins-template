@@ -25,31 +25,81 @@ To define each view and the projects within them change:
 ```
 
 def blueProjectsjobDefn = 	[
-					"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
-								[
-									"springboot-companies"     	: 	"https://github.com/dogbonnahNB/springboot.git",
-
-								]
+	"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
+				[
+					"springboot-companies"     	: 	"https://github.com/dogbonnahNB/springboot.git",
 
 				]
+
+]
 
 def redProjectsjobDefn = 	[
-					"Red Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
-								[
-									"DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
-
-								]
+	"Red Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
+				[
+					"DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
 
 				]
+
+]
 
 ```
 
-This section of code defines the names for two views and the repositories within them. This should be changed to contain the correct view header name, and more repositories can be added to the view e.g:
+This section of code defines the names for two views and the repositories within them. This should be changed to contain the correct view header name, and more repositories can be added to the view e.g.:
 
 ```
   [
     "DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
     "fake-repo"     :   "https://github.com/nonexistantuser/fake-repo.git"  
   ]
+
+```
+
+To set the permissions required for each group in relation to the jobs within a single view, you must create a List defining which permissions are required. For each group a list of permissions must be defined for each view
+
+```
+
+def testBlueProjectsPermissionsList = ['hudson.model.Item.Delete']
+def testRedProjectsPermissionsList = [ 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', ]
+def devBlueProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.model.Item.Read', 'hudson.model.Item.Build', 'hudson.model.Item.Configure', 'hudson.model.Item.Delete', 'hudson.model.Item.Cancel', 'hudson.model.Item.Move', 'hudson.model.Item.Discover', 'hudson.model.Item.Create']
+
+```
+
+Here we have 4 Lists - 2 per group. The example code above defines the following:
+
+* Testers group permissions for the Blue Projects View
+* Testers group permissions for the Red Projects View
+* Developers group permissions for the Blue Projects View
+* Developers group permissions for the Red Projects View
+
+For each view include an if block which will add all the defined permissions for a view onto the `PermissionsList`. Each list holding permissions for the view should have a `while` loop iterating over it.  
+
+```
+
+if(projectType.equals('blueProject')) {
+
+  while(outerIndex < devBlueProjectsPermissionsList.size())
+  {
+    String tempString = devBlueProjectsPermissionsList.get(outerIndex)
+
+    permString = tempString + ":" + "developers"
+    PermissionsList.add(permString)
+
+    outerIndex++
+  }
+
+  outerIndex = 0
+
+  while(outerIndex < testBlueProjectsPermissionsList.size())
+  {
+    String tempString = testBlueProjectsPermissionsList.get(outerIndex)
+
+    permString = tempString + ":" + "testers"
+    PermissionsList.add(permString)
+
+    outerIndex++
+  }
+
+}
 
 ```

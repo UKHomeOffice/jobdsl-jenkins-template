@@ -86,7 +86,6 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 	def PermissionsList = []
 
 	int outerIndex = 0
-	int innerIndex = 0
 	def index = 0
 
 	if(projectType.equals('blueProject')) {
@@ -113,7 +112,8 @@ def buildMultiBranchJob(jobName, jobVCS, projectType) {
 			outerIndex++
 		}
 
-	} else {
+	}
+	if(projectType.equals('redProject')) {
 
 		while(outerIndex < devRedProjectsPermissionsList.size())
 		{

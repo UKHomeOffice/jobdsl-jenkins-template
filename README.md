@@ -12,6 +12,8 @@
 
 2. Roles created on Keycloak which have the same name as their corresponding group on Jenkins. These roles should be assigned via role mappings to similarly named Keycloak groups within the Keycloak realm associated with Jenkins
 
+3. JobDSL, Keycloak Athentication and Project Based Matrix Authorization Strategy Jenkins Plugins installed
+
 ![alt text](screenshots/keycloak_roles.png "Keycloak Roles page")
 
 ![alt text](screenshots/keycloak_groups_rolemappings.png "An example of a Keycloak group with available roles and applied role mappings")
@@ -64,7 +66,6 @@ def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.mod
 ```
 
 Here we have 4 `Lists` - 2 per group. The example code above defines the following:
-
 * Testers group permissions for the Blue Projects View
 * Testers group permissions for the Red Projects View
 * Developers group permissions for the Blue Projects View
@@ -102,6 +103,56 @@ if(projectType.equals('blueProject')) {
 
 ```
 
-When iterating over a groups permissions for a view, within the `permString` definition, be sure to place the name of the group after the colon exactly as it appears in the Jenkins Authorization Section of Configure Global Security page
+When iterating over a groups permissions for a view, within the `permString` definition, be sure to place the name of the group after the colon exactly as it appears in the Jenkins Authorization Section of Configure Global Security page.
 
-Finally  
+Finally an `each` block should be appended to the groovy script. This block builds each view and the project within it.
+
+```
+
+blueProjectsjobDefn.each { entry ->
+  println "View  " + entry.key
+	entry.value.each { job ->
+        println "Job  " + job.key
+		jobName = job.key;
+		jobVCS = job.value;
+		projectType = 'blueProject';
+		buildMultiBranchJob(jobName, jobVCS, projectType)
+	}
+  listView("${entry.key}") {
+    jobs {
+      entry.value.each { job ->
+        name("${job.key}")
+      }
+    }
+    columns {
+        status()
+        weather()
+        name()
+        lastSuccess()
+        lastFailure()
+        lastDuration()
+        buildButton()
+    }
+  }
+
+}
+
+```
+The only parts of this block that ought to be different is the variable representing the view's name which in the below example is `blueProjectsjobDefn` and the `projectType` assignment which should be the same as what is defined in its corresponding if statement:
+
+```
+if(projectType.equals('blueProject'))
+
+```
+
+## Creating the Seed Job in Jenkins
+
+To create the seed job create a new freestyle job in Jenkins and within the Source Code Management section insert the name of the repository containing your groovy script.
+
+![alt text](screenshots/jenkins_sourcecodemanagement.png "Source Code Management section")
+
+Scroll down the page to the Build section and select Add build step > Process Job DSLs
+
+![alt text](screenshots/keycloak_roles.png "Keycloak Roles page")
+
+If configured correctly your seed job should run successfully and generate views with the defined projects within them.

@@ -26,25 +26,23 @@ To define each view and the projects within them change:
 
 def blueProjectsjobDefn = 	[
 	"Blue Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
-				[
-					"springboot-companies"     	: 	"https://github.com/dogbonnahNB/springboot.git",
+	[
+		"springboot-companies"     	: 	"https://github.com/dogbonnahNB/springboot.git",
 
-				]
-
+  ]
 ]
 
 def redProjectsjobDefn = 	[
 	"Red Projects"	:	// Each Element is a Entry with Key being the project Name and Value being the Git URL
-				[
-					"DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
+	[
+		"DavidIMS"     	: 	"https://github.com/dogbonnahNB/DavidIMS.git",
 
-				]
-
+	]
 ]
 
 ```
 
-This section of code defines the names for two views and the repositories within them. This should be changed to contain the correct view header name, and more repositories can be added to the view e.g.:
+This section of code defines the names for two views and the repositories within them. This should be changed to contain the correct view header name. More repositories can be added to the view as demonstrated below:
 
 ```
   [
@@ -54,7 +52,7 @@ This section of code defines the names for two views and the repositories within
 
 ```
 
-To set the permissions required for each group in relation to the jobs within a single view, you must create a List defining which permissions are required. For each group a list of permissions must be defined for each view
+To set the permissions required for each group in relation to the jobs within a single view, you must create a `List` defining which permissions are required. For each group a `List` of permissions must be defined for each view
 
 ```
 
@@ -65,14 +63,14 @@ def devRedProjectsPermissionsList = [ 'hudson.model.Item.Workspace', 'hudson.mod
 
 ```
 
-Here we have 4 Lists - 2 per group. The example code above defines the following:
+Here we have 4 `Lists` - 2 per group. The example code above defines the following:
 
 * Testers group permissions for the Blue Projects View
 * Testers group permissions for the Red Projects View
 * Developers group permissions for the Blue Projects View
 * Developers group permissions for the Red Projects View
 
-For each view include an if block which will add all the defined permissions for a view onto the `PermissionsList`. Each list holding permissions for the view should have a `while` loop iterating over it.  
+For each view, include an `if` block which will add all the defined permissions for a view onto the `PermissionsList`. Each `List` holding permissions for the view should have a `while` loop iterating over it. Give each list a relevant name and stick to a single naming convention to avoid confusion when referring to them later.  
 
 ```
 
@@ -103,3 +101,7 @@ if(projectType.equals('blueProject')) {
 }
 
 ```
+
+When iterating over a groups permissions for a view, within the `permString` definition, be sure to place the name of the group after the colon exactly as it appears in the Jenkins Authorization Section of Configure Global Security page
+
+Finally  
